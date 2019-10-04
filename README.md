@@ -9,7 +9,7 @@ Role to install bridge-utils.
 ### Supported platforms
 
 ```yml
-- CentOS
+- EL
   - 7
 ```
 
