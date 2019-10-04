@@ -1,0 +1,53 @@
+---
+# zerodowntime.bridge/tasks/main.yml
+
+
+- name: Install bridge-utils
+  package:
+    name: "{{ bridge__package_name }}"
+    state: "{{ bridge__package_state }}"
+  tags:
+    - bridge
+    - bridge::install
+
+
+- name: Load bridge kernel module
+  modprobe:
+    name: bridge
+    state: present
+  tags:
+    - bridge
+    - bridge::install
+
+
+- name: Controls IP packet forwarding
+  sysctl:
+    name: "net.ipv4.ip_forward"
+    value: 1
+    state: present
+  tags:
+    - bridge
+    - bridge::configure
+
+
+- name: Load kernel module
+  modprobe:
+    name: br_netfilter
+    state: present
+  tags:
+    - bridge
+    - bridge::install
+
+
+- name: Disable netfilter on bridges
+  sysctl:
+    name: "{{ item }}"
+    value: 0
+    state: present
+  loop:
+    - 'net.bridge.bridge-nf-call-iptables'
+    - 'net.bridge.bridge-nf-call-ip6tables'
+    - 'net.bridge.bridge-nf-call-arptables'
+  tags:
+    - bridge
+    - bridge::configure

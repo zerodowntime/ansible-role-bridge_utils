@@ -1,0 +1,16 @@
+---
+# zerodowntime.bridge/defaults/main.yml
+
+
+#? bridge__package_name:
+#?   type: string
+#?   description: Package name to be installed
+#?   required: True
+bridge__package_name: bridge-utils
+
+
+#? bridge__package_state:
+#?   type: string
+#?   description: Whether to install the package or not
+#?   required: True
+bridge__package_state: present
